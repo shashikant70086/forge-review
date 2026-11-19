@@ -1,0 +1,56 @@
+{
+  "name": "forge-review",
+  "displayName": "Forge Review",
+  "description": "TrueForge coding agent with budgeted context and per-hunk review.",
+  "version": "0.1.0",
+  "publisher": "forge-review",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/shashikant70086/forge-review.git" },
+  "engines": { "vscode": "^1.105.0", "node": ">=22" },
+  "categories": ["Programming Languages", "Other"],
+  "main": "./dist/extension.js",
+  "activationEvents": ["onCommand:forgeReview.open"],
+  "capabilities": { "untrustedWorkspaces": { "supported": false }, "virtualWorkspaces": false },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "tsc --noEmit",
+    "test": "tsx --test test/*.test.ts",
+    "vscode:prepublish": "npm run check && npm run build",
+    "package": "vsce package --no-dependencies --allow-missing-repository",
+    "test:integration": "node scripts/test-integration.mjs"
+  },
+  "contributes": {
+    "commands": [
+      { "command": "forgeReview.open", "title": "Forge Review: Open Agent" },
+      { "command": "forgeReview.inline", "title": "Forge Review: Edit Selection" },
+      { "command": "forgeReview.cancel", "title": "Forge Review: Cancel Run" },
+      { "command": "forgeReview.undo", "title": "Forge Review: Undo Last Applied Change" }
+    ],
+    "keybindings": [{ "command": "forgeReview.inline", "key": "ctrl+alt+i", "mac": "cmd+alt+i", "when": "editorHasSelection && editorTextFocus" }],
+    "configuration": {
+      "title": "Forge Review",
+      "properties": {
+        "forgeReview.baseUrl": { "type": "string", "default": "http://localhost:8790", "scope": "machine", "description": "Local TrueForge server URL." },
+        "forgeReview.model": { "type": "string", "default": "", "scope": "machine", "description": "Configured TrueForge model name, including provider prefix." },
+        "forgeReview.fallbackModel": { "type": "string", "default": "", "scope": "machine", "description": "Optional second TrueForge model used after a failed attempt." },
+        "forgeReview.contextBudget": { "type": "integer", "default": 12000, "minimum": 2000, "maximum": 60000, "description": "Maximum characters for initial retrieved code context." }
+      }
+    }
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.26.0",
+    "@truefoundry/trueforge-sdk": "0.183.0",
+    "diff": "^8.0.2",
+    "ignore": "^7.0.5",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/vscode": "^1.105.0",
+    "@vscode/test-electron": "^2.5.2",
+    "@vscode/vsce": "^3.7.0",
+    "esbuild": "^0.25.0",
+    "tsx": "^4.20.0",
+    "typescript": "~5.9.3"
+  }
+}

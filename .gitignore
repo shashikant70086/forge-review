@@ -1,0 +1,13 @@
+.demo/
+node_modules/
+*.vsix
+.env
+.env.local
+dist/
+.vscode-test/
+test-results/
+*.docx
+forge-site.tar.gz
+website/
+tmp/
+submission/private/

@@ -1,0 +1,6 @@
+{
+  "forgeReview.baseUrl": "http://localhost:8790",
+  "forgeReview.model": "openai/gpt-4.1",
+  "forgeReview.fallbackModel": "openai/gpt-4.1-mini",
+  "forgeReview.contextBudget": 12000
+}
